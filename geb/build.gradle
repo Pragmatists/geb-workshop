@@ -23,3 +23,13 @@ test {
 	// force Gradle to always run the tests
 	outputs.upToDateWhen { false }
 }
+
+test.doFirst {
+    project(":spring-petclinic").tasks.tomcatRun.daemon=true
+    project(":spring-petclinic").tasks.tomcatRun.execute()
+}
+
+test.doLast {
+    project(":spring-petclinic").tasks.tomcatStop.stopKey="stopKey"
+    project(":spring-petclinic").tasks.tomcatStop.execute()
+}
