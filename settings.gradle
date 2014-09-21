@@ -1,1 +1,1 @@
-include 'geb'
+include 'geb', 'spring-petclinic'
