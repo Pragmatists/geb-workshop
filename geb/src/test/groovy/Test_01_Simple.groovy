@@ -9,14 +9,16 @@ class Test_01_Simple extends GebTest {
         // make sure we actually got to the page
         assert title == "Pragmatists Blog"
 
+        String mainPageUrl = "http://pragmatists.pl/"
+
         // extract the banner link
-        def bannerLink = $(text: "Pragmatists")
+        def bannerLink = $("nav#nav-main a.logo", 0, href: mainPageUrl)
 
         // click the link
         bannerLink.click()
 
         // wait for a redirect to the main page
-        assert currentUrl == "http://pragmatists.pl/"
+        assert currentUrl == mainPageUrl
     }
 
     @Test
