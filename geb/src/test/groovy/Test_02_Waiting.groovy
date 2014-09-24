@@ -17,4 +17,18 @@ class Test_02_Waiting extends GebTest {
 
         waitFor { $(servicesSectionSelector).text().contains('90%') }
     }
+
+    @Test
+    public void search_for_a_term_in_google() {
+        go "http://google.com/ncr"
+
+        // make sure we actually got to the page
+        assert title == "Google"
+
+       // enter wikipedia into the search field
+        $("input", name: "q") << "wikipedia"
+
+        // wait for the results to show
+        waitFor(10, 0.2) { title.endsWith("Google Search") }
+    }
 }
