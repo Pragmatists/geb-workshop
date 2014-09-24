@@ -20,12 +20,4 @@ class Test_01_Simple extends GebTest {
         // wait for a redirect to the main page
         assert currentUrl == mainPageUrl
     }
-
-    @Test
-    public void visit_pragmatists_blog_article() {
-        go "http://pragmatists.pl/blog"
-        def articleLink = $(text: 'read more')
-        articleLink.click()
-        assert currentUrl.startsWith("http://pragmatists.pl/blog/2014/")
-    }
 }
