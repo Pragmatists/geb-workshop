@@ -1,7 +1,4 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 apply plugin: 'groovy'
-apply from: 'downloadChromedriver.gradle'
 
 repositories {
 	mavenCentral()
@@ -9,8 +6,6 @@ repositories {
 
 // properties of the build
 ext {
-    drivers = ['firefox', 'chrome']
-
     groovyVersion = '2.3.6'
     gebVersion = '0.9.3'
     seleniumVersion = '2.43.1'
@@ -20,24 +15,11 @@ dependencies {
     testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
     testCompile "org.gebish:geb-junit4:$gebVersion"
     testCompile "junit:junit:4.11"
-    drivers.each { driver ->
-        testCompile "org.seleniumhq.selenium:selenium-${driver}-driver:$seleniumVersion"
-    }
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 }
 
-drivers.each { driver ->
-    task "${driver}Test"(type: Test) {
-        outputs.upToDateWhen { false }
-
-        systemProperty "geb.driver", driver
-    }
-}
-
-chromeTest {
-    dependsOn unzipChromeDriver
-
-    def chromedriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "chromedriver.exe" : "chromedriver"
-    systemProperty "webdriver.chrome.driver",
-            new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
+test {
+	// force Gradle to always run the tests
+	outputs.upToDateWhen { false }
 }
