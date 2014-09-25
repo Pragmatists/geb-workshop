@@ -1,0 +1,25 @@
+apply plugin: 'groovy'
+
+repositories {
+	mavenCentral()
+}
+
+// properties of the build
+ext {
+    groovyVersion = '2.3.6'
+    gebVersion = '0.9.3'
+    seleniumVersion = '2.43.1'
+}
+
+dependencies {
+    testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    testCompile "org.gebish:geb-junit4:$gebVersion"
+    testCompile "junit:junit:4.11"
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+}
+
+test {
+	// force Gradle to always run the tests
+	outputs.upToDateWhen { false }
+}
