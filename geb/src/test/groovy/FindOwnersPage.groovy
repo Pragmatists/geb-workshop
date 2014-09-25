@@ -9,6 +9,7 @@ class FindOwnersPage extends Page {
         searchField { $('form').lastName() }
         submit { $("button[type='submit']") }
         errorFeedback(required: false) { $('.help-inline') }
+        foundOwners { $('table#owners tbody tr').size() }
     }
 
     void search(String str) {

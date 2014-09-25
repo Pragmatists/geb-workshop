@@ -11,4 +11,14 @@ class Test_04_PetClinic_Search_Owners extends GebTest {
 
         waitFor { errorFeedback.displayed }
     }
+
+    @Test
+    void search_resulting_in_two_owners() {
+        to FindOwnersPage
+
+        assert !foundOwners
+        search "Davis"
+
+        waitFor { foundOwners == 2 }
+    }
 }
