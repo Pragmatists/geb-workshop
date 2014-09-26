@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Automated browser-based web application testing with the Geb library</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML" />
+		<meta name="author" content="Adam Ruka" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if (window.location.search.match(/print-pdf/gi)) {
+				var link = document.createElement('link');
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName('head')[0].appendChild(link);
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="reveal">
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3>Automated browser-based web application testing with the Geb library</h3>
+					<h4>Warsjawa 2014</h4>
+
+                    <aside class="notes">
+                        Two potentially interesting asides:
+                        <ol>
+                            <li>how I'm back at MIM at the other side of the desk</li>
+                            <li>what a crazy idea it is to run a workshop on something
+                                so fragile as browser tests (the old 'live demo' curse)
+                            </li>
+                        </ol>
+                    </aside>
+				</section>
+
+				<section>
+					<h5>WhomaI</h5>
+					<ul>
+						<li>Adam Ruka</li>
+						<li>Twitter @adam_ruka</li>
+                        <li>software developer</li>
+						<li>
+                            working for Pragmatists
+                            <ul>
+                                <li>we love Agile</li>
+                                <li>we love XP (especially TDD)</li>
+                                <li>if that sounds interesting,
+                                    contact us - we're always looking to hire good
+                                    people!</li>
+                            </ul>
+                        </li>
+					</ul>
+
+					<aside class="notes">
+						Mention that my workshop is based on experience using Geb
+                        in a real project.
+					</aside>
+				</section>
+
+                <section>
+                    <h5>What is Geb?</h5>
+                    <p>
+                        Geb is a library for the Groovy language which facilitates writing
+                        tests that utilize a real browser.
+                    </p>
+                    <p>
+                        It uses Selenium Webdriver for controlling the browser instance.
+                    </p>
+
+                    <p>
+                        If you're worried about not knowing Groovy - don't be! I don't
+                        really know it either. I just use it.
+                        You don't need any Groovy knowledge to benefit from this workshop.
+                        Groovy is basically a superset of Java, and very easy for Java
+                        developers to pick up (as I hope to demonstrate ;) ).
+                    </p>
+
+                    <aside class="notes">
+                        Ask - is there anybody who DOESN'T know Java?
+                        Is there anybody who knows Groovy?
+                    </aside>
+                </section>
+
+				<section>
+					<h5>End-to-end tests - disadvantages</h5>
+					<p>
+						<ul>
+                            <li>They are brittle
+                                <ul>
+                                    <li>non-functional changes (e.g. HTML structure) break them</li>
+                                    <li>environmental changes break them</li>
+                                    <li>they often have dependencies on application state</li>
+                                    <li>they have a nasty habit of failing unreliably</li>
+                                </ul>
+                            </li>
+                            <li>They are hard to set up</li>
+                            <li>They are slow</li>
+                            <li>They are difficult (well, at least more difficult than
+                                unit tests... right?) to write and maintain</li>
+						</ul>
+					</p>
+				</section>
+
+				<section>
+					<h5>So... why are we here again?</h5>
+					<p>
+                        I won't bother composing a list of pros. I strongly believe they
+                        are worth it
+                        because of the level of confidence they provide, and using the
+                        right tools (hint: one of them starts with a G) aren't more
+                        difficult than unit tests to write and maintain. My goal today is
+                        to convince you of that.
+					</p>
+				</section>
+
+				<section>
+					<h5>Enough talking... let's do some coding!</h5>
+					<p>
+						Clone this Git repo:
+					</p>
+                    <p>
+                        <code>https://github.com/Pragmatists/geb-workshop.git</code>
+                    </p>
+                    <p>
+                        It's organized by tags, named <code>[0-9]{2}\-\s+</code>
+                    </p>
+                    <p>
+                        The numbers determine the order
+                    </p>
+				</section>
+
+                <section>
+                    <p>
+                        First tag: <code>01-simplest-geb-test</code>
+                    </p>
+                    <p>
+                        (<code>cd</code> into the directory, then
+                        <code>git checkout 01-simplest-geb-test</code>)
+                    </p>
+                    <p>
+                        Then execute
+                    </p>
+                    <p>
+                        <code>./gradlew test</code>
+                    </p>
+                    <p>
+                        from the console
+                    </p>
+
+                    <aside class="notes">
+                        In this section, first make sure everybody runs Gradle OK.
+                        Thank proceed to opening and running the test from an IDE.
+                    </aside>
+                </section>
+
+				<section>
+					<p>
+                        Next tag: <code>02-geb-junit4-integration</code>
+					</p>
+				</section>
+
+				<section>
+					<h5>Exercise #1</h5>
+					<p>
+                        Write a new test that clicks on one of the articles
+                        in the Pragmatists blog (use the 'read more' link, not
+                        the article name one)
+                    </p>
+				</section>
+
+                <section>
+                    <h5>Content selection</h5>
+                    <p>
+                        Does the <code>$</code> sign remind you of something?
+                    </p>
+                    <p>
+                        <code>$([cssSelector], [index/range], [attribute/textMatchers])</code>
+                    </p>
+                    <p>
+                        Examples:
+                        <ul>
+                            <li><code>$("h1", 2, class: "heading")</code></li>
+                            <li><code>$("div.some-class p:first[title='something']", 0..1)</code></li>
+                            <li><code>$("p", text: ~/p./)</code></li>
+                            <li><code>$("p", attr1: iEndsWith("demo"))</code></li>
+                        </ul>
+                    </p>
+
+                    <aside class="notes">
+                        Ask if anybody knew '$' is valid in Java identifiers.
+                    </aside>
+                </section>
+
+                <section>
+                    <h5>Content selection</h5>
+                    <p>
+                        The <code>$</code> method returns a Geb <code>Navigator</code>
+                        object
+                    </p>
+                    <p>
+                        Some of it's methods and/or properties:
+                        <ul>
+                            <li><code>size()</code></li>
+                            <li><code>find()</code> - same signature as <code>$</code></li>
+                            <li><code>displayed</code></li>
+                            <li>
+                                <code>tag()</code>, <code>text()</code>,
+                                <code>@attribute</code> and <code>classes()</code></li>
+                            <li><code>click()</code></li>
+                            <li><code>&lt;&lt;</code></li>
+                            <li>and much, much more</li>
+                        </ul>
+                    </p>
+
+                    <aside class="notes">
+                        Mention what happens when the query doesn't match any elements
+                        (empty <code>Navigator</code> object).
+                    </aside>
+                </section>
+
+				<section>
+					<h5>Exercise #2</h5>
+					<p>
+						Notice how slow that first test is in locating the link to click?
+					</p>
+                    <p>
+                        Rewrite it to use a JQuery selector of the link, and
+                        compare the speed.
+                    </p>
+
+                    <aside class="notes">
+                        If the exercise goes well - modify the first one to this time
+                        click on an actual link (for example, the third one ;p)
+                    </aside>
+				</section>
+
+				<section>
+					<h5>Waiting</h5>
+					<p>
+						In modern web pages, a lot of stuff is happening asynchronously.
+					</p>
+                    <p>
+                        Geb has very good support for waiting for things to happen.
+                    </p>
+                    <p>
+                        Next tag: <code>03-waiting-demo</code>
+                    </p>
+
+                    <aside class="notes">
+                        Mention that waiting is not needed for requests that result in
+                        a page reload.
+                    </aside>
+				</section>
+
+				<section>
+					<h5>Waiting</h5>
+					<p>
+                        The (simplified) form is
+					</p>
+                    <p>
+                        <code>waitFor([waitFor], [retryInterval])(closure)</code>
+                    </p>
+                    <p>
+                        The default values are affected by configuration.
+                    </p>
+				</section>
+
+                <section>
+                    <h5>Exercise #3</h5>
+                    <p>
+                        Go to Google, input a query and wait for the results to show up.
+                    </p>
+                </section>
+
+				<section>
+					<h5>Multiple browsers</h5>
+                    <p>
+                        For multiple browser, we need to alter our build script slightly.
+                    </p>
+                    <p>
+                        Next tag: <code>04-multiple-browsers</code>
+                    </p>
+                    <p>
+                        Then run
+                    </p>
+                    <p>
+                        <code>./gradlew chromeTest</code>
+                    </p>
+
+                    <aside class="notes">
+                        As before: first the console, then the IDE.
+                        Be sure to mention the two system properties used for running
+                        Chrome tests from inside an IDE: geb.driver and
+                        webdriver.chrome.driver.
+                    </aside>
+				</section>
+
+				<section>
+					<h5>Reporting</h5>
+					<p>
+						Geb has a very cool feature: it allows taking screenshots
+                        and HTML dumps of the page it's interacting with.
+					</p>
+                    <p>
+                        For that feature to work, we need to configure a reporting directory.
+                    </p>
+				</section>
+
+                <section>
+                    <h5>Configuration</h5>
+                    <p>
+                        Geb reads it's configuration in the ConfigSlurper (yes, that's really
+                        how it's called) format from a file called <code>GebConfig.groovy</code>
+                        placed in the resources directory (<code>src/test/resources</code>
+                        usually).
+                    </p>
+                    <p>
+                        This particular feature is controlled by the property
+                        <code>reportsDir</code>.
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Reporting</h5>
+                    <p>
+                        To issue a report request, you use the <code>report</code>
+                        method providing the desired filename as the argument.
+                    </p>
+                    <p>
+                        By default, both an HTML and a screenshot reporters are configured.
+                    </p>
+                    <p>
+                        You can configure it with the <code>reporter</code> property.
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Reporting</h5>
+                    <p>
+                        Next tag: <code>05-reporting</code>
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Application testing</h5>
+                    <p>
+                        So far we have been testing sites, not applications.
+                    </p>
+                    <p>
+                        Mainly because applications add a significant level of
+                        complexity to the tests in that they require a setup.
+                    </p>
+
+                    <aside class="notes">
+                        Say that this setup is different for every project
+                    </aside>
+                </section>
+
+                <section>
+                    <h5>Application testing</h5>
+                    <p>
+                        The Holy Grail would be something like:
+                        <ul>
+                            <li>
+                                programmatic application starting, so it can be controlled in
+                                the tests setup methods
+                                <ul>
+                                    <li>of course as close to the production mechanism as
+                                    possible, to provide maximum confidence</li>
+                                </ul>
+                            </li>
+                            <li>
+                                flexible, text-files based configuration with good defaults, to
+                                allow versioning and execution both on the developers local
+                                environments (also in an IDE) and a dedicated CI server
+                            </li>
+                            <li>
+                                access to the entire business logic layer, to:
+                                <ul>
+                                    <li>enforce consistent testing data in all tests</li>
+                                    <li>allow easy setting up of the 'given' part of the tests</li>
+                                    <li>allow mocking of inconvenient dependencies</li>
+                                    <li>facilitate formulating assertions being checked by the tests</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </p>
+                    <p>
+                        I have yet to see a system meeting all of these requirements
+                    </p>
+                </section>
+
+				<section>
+					<h5>Some possible solutions</h5>
+                    <ul>
+                        <li>
+                            If you're using a full Java EE application server,
+                            look into Arquillian with Drone and Graphene
+                        </li>
+                        <li>
+                            Spring has a cool project called Spring MVC Test HtmlUnit - can
+                            be even integrated with Geb!
+                            <ul>
+                                <li>.. but it "cheats" by using a mock driver, so
+                                I'm not showing it here (although that may be considered
+                                a plus in some circumstances...)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            both Jetty and Tomcat can be started programmatically
+                        </li>
+                        <li>
+                            you can start the application in your build system
+                        </li>
+                        <li>
+                            you can do nothing, and make the application start completely
+                            external to your tests
+                        </li>
+                    </ul>
+				</section>
+
+                <section>
+                    <h5>Application testing</h5>
+                    <p>
+                        Next tag: <code>06-spring-petclinic</code>
+                    </p>
+                    <p>
+                        Execute
+                    </p>
+                    <p>
+                        <code>./gradlew tomcatRun</code>
+                    </p>
+                    <p>
+                        , then go to localhost:9966/petclinic
+                    </p>
+
+                    <aside class="notes">
+                        Of course discuss the basic test and Gradle build here.
+                    </aside>
+                </section>
+
+				<section>
+					<h5>Page Object Pattern</h5>
+					<p>
+                        This is a pattern created by the Selenium devs. It's purpose is
+                        to allow e2e tests to achieve high quality,
+                        reduce duplication and boilerplate by hiding particular
+                        pages in nice object abstractions.
+                    </p>
+                    <p>
+                        Geb has fantastic support for this pattern.
+                    </p>
+				</section>
+
+                <section>
+                    <h5>Dealing with forms</h5>
+                    <p>
+                        Because interacting with forms is so common, Geb offers some
+                        syntactic sugar for making it easier.
+                    </p>
+                    <p>
+                        <code>$('form').find('input', name: 'user').value("abc")</code>
+                    </p>
+                    <p>
+                        is the same as
+                    </p>
+                    <p>
+                        <code>$('form').user = "abc"</code>
+                    </p>
+                </section>
+
+                <section>
+                    <p>
+                        Next tag: <code>07-search-owners</code>
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Exercise #4</h5>
+                    <p>
+                        Search by 'Davis' and confirm we find 2 owners.
+                    </p>
+                </section>
+
+                <section>
+                    <p>
+                        Next tag: <code>08-add-owner</code>
+                    </p>
+
+                    <aside class="notes">
+                        Remeber to first show and discuss the
+                        <code>JdbcClinicServiceTest</code> (run in an IDE!),
+                        and only then the add owner test.
+                    </aside>
+                </section>
+
+                <section>
+                    <h5>Exercise #5</h5>
+                    <p>
+                        Write a test for adding a pet to an owner.
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Continuous Integration</h5>
+                    <p>
+                        Because these tests are slow and state-dependant, it's
+                        <strong>very</strong> important to set up them up on a CI server
+                    </p>
+                    <p>
+                        Application starting might require some setup if that's
+                        not covered by your build system
+                    </p>
+                    <p>
+                        The system state might also need setup
+                    </p>
+                    <p>
+                        Can be done on headless machines like Vagrant VMs - requires
+                        an X-server, XVFB works good (there's a Jenkins plugin)
+                    </p>
+                    <p>
+                        Be careful of the environment
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Cloud services</h5>
+                    <p>
+                        There are services that offer a so called remote driver,
+                        where you execute the browser on a remote machine (you can
+                        set up a tunnel back to your application)
+                    </p>
+                    <p>
+                        Geb has Gradle plugins for two of them: SauceLabs (probably
+                        the most popular one) and BrowserStack
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Reference material</h5>
+                    <p>
+                        The book of Geb: http://www.gebish.org/manual/current/index.html
+                    </p>
+                    <p>
+                        Spring MVC Test HtmlUnit + Geb: https://spring.io/blog/2014/04/15/spring-mvc-test-with-geb
+                    </p>
+                    <p>
+                        Arquillian + Drone + Graphene: http://arquillian.org/guides/functional_testing_using_graphene/
+                    </p>
+                </section>
+
+                <section>
+                    <h5>Thank you</h5>
+                    <p>
+                        Questions? Comments? Thoughts? Anything?
+                    </p>
+                </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: false,
+				history: true,
+				center: true,
+
+				theme: 'pragmatists', // available themes are in /css/theme
+				transition: 'default',
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+	</body>
+</html>
